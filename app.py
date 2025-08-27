@@ -1,18 +1,20 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET"])
-def home():
-    return "Hello from Flask on Render!"
-
-@app.route("/webhook", methods=["POST"])
-def webhook():
-    data = request.json
-    print("📩 Incoming JSON:", data)
+@app.route('/sms', methods=['POST'])
+def sms_webhook():
+    data = request.get_json()
     
-    # Later: route to AI agent or action handler
-    return jsonify({"status": "received"}), 200
+    print("📨 Incoming Webhook:")
+    print(data)  # <--- THIS will print the JSON to the Render logs
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    if data and "data" in data and "payload" in data["data"]:
+        payload = data["data"]["payload"]
+        from_number = payload.get("from")
+        to_number = payload.get("to")
+        message_text = payload.get("text")
+
+        print(f"From: {from_number} | To: {to_number} | Message: {message_text}")
+
+    return "OK", 200
