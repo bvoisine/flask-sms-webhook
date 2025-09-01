@@ -1,0 +1,15 @@
+agents:
+  - role: "Breach Monitor"
+    goal: "Watch positions for potential breach"
+    backstory: "Monitors SPY and QQQ spreads for breach risk."
+    verbose: true
+    allow_delegation: false
+
+tasks:
+  - description: "Check SPY Iron Condor for breach risk"
+    expected_output: "Risk score or alert trigger"
+    agent: "Breach Monitor"
+
+crew:
+  name: "FrogStack Breach Monitor"
+  description: "Monitors spreads and notifies user"
